@@ -5,6 +5,11 @@
  */
 package interfaz;
 
+import clases.Helper;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author GABRIEL
@@ -16,6 +21,10 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        JButton botonesT[] = {cmdCrear, cmdLimpiar};
+        JButton botonesF[] = {cmdLlenadoManual, cmdLlenadoAuto, cmdCalcular};
+        Helper.habilitarBotones(botonesT);
+        Helper.deshabilitarBotones(botonesF);
     }
 
     /**
@@ -71,14 +80,29 @@ public class Principal extends javax.swing.JFrame {
 
         cmdCrear.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cmdCrear.setText("Crear");
+        cmdCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdCrearActionPerformed(evt);
+            }
+        });
         jPanel3.add(cmdCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 25, 110, 30));
 
         cmdLlenadoAuto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cmdLlenadoAuto.setText("LlenarAuto");
+        cmdLlenadoAuto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdLlenadoAutoActionPerformed(evt);
+            }
+        });
         jPanel3.add(cmdLlenadoAuto, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 25, 100, 30));
 
         cmdLlenadoManual.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cmdLlenadoManual.setText("LlenarManual");
+        cmdLlenadoManual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdLlenadoManualActionPerformed(evt);
+            }
+        });
         jPanel3.add(cmdLlenadoManual, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 65, 110, 30));
 
         cmdLimpiar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -145,11 +169,149 @@ public class Principal extends javax.swing.JFrame {
 
     private void cmdCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCalcularActionPerformed
         // TODO add your handling code here:
+        txtResultado.setText("");
+        int nf, nc, op;
+        nf = Integer.parseInt(txtNumeroFilas.getText());
+        nc = Integer.parseInt(txtNumeroColumnas.getText());
+        op = cmbOperacion.getSelectedIndex();
+        switch (op) {
+            case 0:
+                if ((nf%2==0 && nc%2==0) || (nf != nc)) {
+                    Helper.mensaje(this, "Para visualizar este recorrido, el número de filas y columnas deben ser iguales e impares.", 3);
+                }
+                else {
+                    txtResultado.setText(Helper.recorridoUno(tblTablaInicial));
+                }
+                break;
+        }
+        JButton botonesT[] = {cmdLimpiar};
+        JButton botonesF[] = {cmdCrear, cmdLlenadoManual, cmdLlenadoAuto};
+        Helper.habilitarBotones(botonesT);
+        Helper.deshabilitarBotones(botonesF);
     }//GEN-LAST:event_cmdCalcularActionPerformed
 
     private void cmdLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLimpiarActionPerformed
         // TODO add your handling code here:
+        Helper.porDefectoTabla(tblTablaInicial);
+        txtResultado.setText("");
+        txtNumeroFilas.setText("");
+        txtNumeroFilas.setEditable(true);
+        txtNumeroColumnas.setText("");
+        txtNumeroColumnas.setEditable(true);
+        txtNumeroFilas.requestFocusInWindow();
+        cmbOperacion.setSelectedIndex(0);
+        JButton botonesH[] = {cmdCrear, cmdLimpiar};
+        JButton botonesD[] = {cmdLlenadoManual, cmdLlenadoAuto, cmdCalcular};
+        Helper.habilitarBotones(botonesH);
+        Helper.deshabilitarBotones(botonesD);
     }//GEN-LAST:event_cmdLimpiarActionPerformed
+
+    private void cmdCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCrearActionPerformed
+        // TODO add your handling code here:
+        try {
+            int nc, nf;
+            DefaultTableModel tm;
+            nf = Integer.parseInt(txtNumeroFilas.getText());
+            nc = Integer.parseInt(txtNumeroColumnas.getText());
+            tm = (DefaultTableModel) tblTablaInicial.getModel();
+            if (nf < 4 || nc < 4) {
+                Helper.mensaje(this, "Por favor considere 4 como el mínimo para filas y columnas.", 2);
+                txtNumeroFilas.setText("");
+                txtNumeroColumnas.setText("");
+                txtNumeroFilas.requestFocusInWindow();
+            }
+            else if (nf > 10 || nc > 10) {
+                Helper.mensaje(this, "Por favor considere 10 como el máximo para filas y columnas.", 2);
+                txtNumeroFilas.setText("");
+                txtNumeroColumnas.setText("");
+                txtNumeroFilas.requestFocusInWindow();
+            }
+            else {
+                Helper.mensaje(this, "Matriz creada exitosamente.", 1);
+                tm.setRowCount(nf);
+                tm.setColumnCount(nc);
+                txtNumeroFilas.setEditable(false);
+                txtNumeroColumnas.setEditable(false);
+                JButton botonesT[] = {cmdLlenadoManual, cmdLlenadoAuto, cmdLimpiar};
+                JButton botonesF[] = {cmdCrear};
+                Helper.habilitarBotones(botonesT);
+                Helper.deshabilitarBotones(botonesF);
+            }
+        } catch (NumberFormatException e) {
+            Helper.mensaje(this, "Campo(s) Inválido(s).", 3);
+            txtNumeroFilas.setText("");
+            txtNumeroColumnas.setText("");
+            txtNumeroFilas.requestFocusInWindow();
+        }
+    }//GEN-LAST:event_cmdCrearActionPerformed
+
+    private void cmdLlenadoAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLlenadoAutoActionPerformed
+        // TODO add your handling code here:
+        int nf, nc, n;
+        nf = tblTablaInicial.getRowCount();
+        nc = tblTablaInicial.getColumnCount();
+        Helper.mensaje(this, "Matriz llenada exitosamente.", 1);
+        for (int i = 0; i < nf; i++) {
+            for (int j = 0; j < nc; j++) {
+                n = (int) (Math.random() * 50 + 1);
+                tblTablaInicial.setValueAt(n, i, j);
+            }
+        }
+        JButton botonesT[] = {cmdCalcular, cmdLimpiar};
+        JButton botonesF[] = {cmdCrear, cmdLlenadoManual, cmdLlenadoAuto};
+        Helper.habilitarBotones(botonesT);
+        Helper.deshabilitarBotones(botonesF);
+    }//GEN-LAST:event_cmdLlenadoAutoActionPerformed
+
+    private void cmdLlenadoManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLlenadoManualActionPerformed
+        // TODO add your handling code here:
+        int nf, nc, n, sw, res;
+        boolean aux = true;
+        nf = tblTablaInicial.getRowCount();
+        nc = tblTablaInicial.getColumnCount();
+        for (int i = 0; i < nf; i++) {
+            for (int j = 0; j < nc; j++) {
+                do {
+                    sw = 1;
+                    try {
+                        n = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite el elemento en la posición ["+i+"]" + "["+j+"]").trim());
+                        tblTablaInicial.setValueAt(n, i, j);
+                    } catch (NumberFormatException e) {
+                        Helper.mensaje(this, "Digite un número válido", 3);
+                        sw = 0;
+                    } catch (NullPointerException e) {
+                        res = JOptionPane.showConfirmDialog(this, "¿Estás seguro que desea salir?", "Salir", JOptionPane.YES_NO_OPTION);
+                        if (res == 0) {
+                            Helper.mensaje(this, "Debe llenar la matriz.", 2);
+                            sw = 1;
+                            i = nf;
+                            j = nc;
+                            aux = false;
+                            Helper.limpiadoTabla(tblTablaInicial);
+                        }
+                        else {
+                            sw = 0;
+                        }
+                    }
+                } while (sw == 0);
+            }
+        }
+        //Controlo los botones de llenar para  cuando se salgan del confirm dialog:
+        if (aux == false) {
+            cmdLlenadoAuto.setEnabled(true);
+            cmdLlenadoManual.setEnabled(true);
+        }
+        else {
+            Helper.mensaje(this, "Matriz llenada exitosamente.", 1);
+            cmdLlenadoAuto.setEnabled(false);
+            cmdLlenadoManual.setEnabled(false);
+        }//
+        cmdCalcular.setEnabled(aux);
+        JButton botonesT[] = {cmdLimpiar};
+        JButton botonesF[] = {cmdCrear};
+        Helper.habilitarBotones(botonesT);
+        Helper.deshabilitarBotones(botonesF);
+    }//GEN-LAST:event_cmdLlenadoManualActionPerformed
 
     /**
      * @param args the command line arguments
