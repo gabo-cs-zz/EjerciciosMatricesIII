@@ -176,11 +176,19 @@ public class Principal extends javax.swing.JFrame {
         op = cmbOperacion.getSelectedIndex();
         switch (op) {
             case 0:
-                if ((nf%2==0 && nc%2==0) || (nf != nc)) {
-                    Helper.mensaje(this, "Para visualizar este recorrido, el número de filas y columnas deben ser iguales e impares.", 3);
+                if (nf%2==0) {
+                    Helper.mensaje(this, "Para visualizar este recorrido, el número de filas debe ser impar.", 3);
                 }
                 else {
                     txtResultado.setText(Helper.recorridoUno(tblTablaInicial));
+                }
+                break;
+            case 1:
+                if (nc%2==0) {
+                    Helper.mensaje(this, "Para visualizar este recorrido, el número de columnas debe ser impar.", 3);
+                }
+                else {
+                    txtResultado.setText(Helper.recorridoDos(tblTablaInicial));
                 }
                 break;
         }
