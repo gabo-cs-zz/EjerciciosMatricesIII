@@ -191,6 +191,9 @@ public class Principal extends javax.swing.JFrame {
                     txtResultado.setText(Helper.recorridoDos(tblTablaInicial));
                 }
                 break;
+            case 2:
+                txtResultado.setText(Helper.recorridoTres(tblTablaInicial));
+                break;
         }
         JButton botonesT[] = {cmdLimpiar};
         JButton botonesF[] = {cmdCrear, cmdLlenadoManual, cmdLlenadoAuto};

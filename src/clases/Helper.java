@@ -177,5 +177,37 @@ public class Helper {
         aux = aux.substring(0, aux.length()-2)+".";
         return aux;
     }
+    
+    public static String recorridoTres(JTable tabla1) {
+        int[][] m = pasoDeDatos(tabla1);
+        int nf = m.length;
+        int nc = m[0].length;
+        int auxF, auxC;
+        auxF = (nf-1)/2;
+        auxC = (nc-1)/2;
+        String aux = "";
+        for (int i = 0; i < nf; i++) {
+            if (i==auxF) {
+                aux += Helper.recorridoHaciaDerecha(m, i, auxC, i+2);
+            }
+        }
+        for (int j = 0; j < nc; j++) {
+            if (j==(auxC)+1) {
+                aux += Helper.recorridoHaciaAbajo(m, j, (auxF)+1, j+1);
+            }
+        }
+        for (int i = 0; i < nf; i++) {
+            if (i==(auxF)+1) {
+                aux += Helper.recorridoHaciaIzquierda(m, i, auxC, i-3);
+            }
+        }
+        for (int j = 0; j < nc; j++) {
+            if (j==(auxC)-1) {
+                aux += Helper.recorridoHaciaArriba(m, j, auxF-1, auxF-2);
+            }
+        }
+        aux = aux.substring(0, aux.length()-2)+".";
+        return aux;
+    }
 
 }
