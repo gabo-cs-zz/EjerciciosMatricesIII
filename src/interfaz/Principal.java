@@ -195,7 +195,20 @@ public class Principal extends javax.swing.JFrame {
                 txtResultado.setText(Helper.recorridoTres(tblTablaInicial));
                 break;
             case 3:
-                txtResultado.setText(Helper.recorridoCuatro(tblTablaInicial));
+                if (nf != nc) {
+                    Helper.mensaje(this, "Para visualizar este recorrido, el número de filas debe ser igual al número de columnas.", 3);
+                }
+                else {
+                    txtResultado.setText(Helper.recorridoCuatro(tblTablaInicial));
+                }
+                break;
+            case 4:
+                if ((nf % 2 == 0 && nc % 2 == 0) || (nf != nc)) {
+                    Helper.mensaje(this, "Para visualizar este recorrido, el número de filas y columnas deben ser iguales e impares.", 3);
+                }
+                else {
+                     txtResultado.setText(Helper.recorridoCinco(tblTablaInicial));
+                }
                 break;
         }
         JButton botonesT[] = {cmdLimpiar};

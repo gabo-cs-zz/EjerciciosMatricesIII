@@ -83,14 +83,6 @@ public class Helper {
         return aux;
     }
     
-    public static String recorridoHaciaAbajo(int [][] m, int j, int in, int fin){
-        String aux = "";
-        for (int i = in; i <= fin; i++) {
-            aux = aux + m[i][j]+", ";
-        }
-        return aux;
-    }
-    
     public static String recorridoHaciaIzquierda(int [][] m, int i, int in, int fin){
         String aux = "";
         for (int j = in; j >= fin; j--) {
@@ -107,7 +99,32 @@ public class Helper {
         return aux;
     }
     
-     public static String recorridoDiagonalSecundariaAbajo(int[][] m, int j, int in, int fin) {
+    public static String recorridoHaciaAbajo(int [][] m, int j, int in, int fin){
+        String aux = "";
+        for (int i = in; i <= fin; i++) {
+            aux = aux + m[i][j]+", ";
+        }
+        return aux;
+    }
+    
+    public static String recorridoDiagonalPrincipalAbajo(int[][] m, int j, int in, int fin) {
+        String aux = "";
+        for (int i = in; i <= fin; i++) {
+            aux += m[i][i]+ ", ";
+        }
+        return aux;
+    }
+    
+    public static String recorridoDiagonalSecundariaArriba(int[][] m, int j, int in, int fin) {
+        int nc =m[0].length;
+        String aux = "";
+        for (int i = in; i >= fin; i--) {
+            aux += m[i][nc-1-i]+ ", ";
+        }
+        return aux;
+    }
+    
+    public static String recorridoDiagonalSecundariaAbajo(int[][] m, int j, int in, int fin) {
         String aux = "";
         int nc = m[0].length;
         for (int i = in; i <= fin; i++) {
@@ -175,6 +192,19 @@ public class Helper {
         aux += Helper.recorridoDiagonalSecundariaAbajo(m, nc-2, 1, nf-1);
         aux += Helper.recorridoHaciaDerecha(m, nf-1, 1, nc-1);
         
+        aux = aux.substring(0, aux.length()-2)+".";
+        return aux;
+    }
+    
+    public static String recorridoCinco(JTable tabla1){
+        int [][] m = pasoDeDatos(tabla1);
+        int nf = m.length;
+        int nc = m[0].length;
+        String aux = "";
+        aux += Helper.recorridoHaciaArriba(m, 0, nf-1, 0);
+        aux += Helper.recorridoDiagonalPrincipalAbajo(m, 1, 1, nf/2);
+        aux += Helper.recorridoDiagonalSecundariaArriba(m, (nf/2)-1, (nf/2)-1, 0);
+        aux += Helper.recorridoHaciaAbajo(m, nc-1, 1, nf-1);
         
         aux = aux.substring(0, aux.length()-2)+".";
         return aux;
