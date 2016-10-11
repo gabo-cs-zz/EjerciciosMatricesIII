@@ -169,18 +169,14 @@ public class Helper {
         int nf = m.length;
         int nc = m[0].length;
         String aux = "";
-        for (int i = 1; i <= nf/2; i++) {
+        for (int i = (nf/2)+1; i <= nf; i++) {
             aux += Helper.recorridoHaciaDerecha(m, (nf-i)/i+(nf-i), (nc-i)/i+(nf-i), (nc-1)-(nf-i));
+            aux += Helper.recorridoHaciaAbajo(m, i-1, ((nf-i)/i+(nf-i))+1, (nc-1)-(nf-i));
+            aux += Helper.recorridoHaciaIzquierda(m, i-1, i-2, nf-i );
+            if (i<nf) {
+                aux += Helper.recorridoHaciaArriba(m, nc-i-1, i-1, nc-i);
+            }
         }
-        /*for (int j = 1; j <= nc/2; j++) {
-            aux += Helper.recorridoHaciaAbajo(m, nc-(1+j), j, nf-(1+j));
-        }*/
-        /*for (int i = 1; i <= nf/2; i++) {
-            aux += Helper.recorridoHaciaIzquierda(m, (nf-1)/2+i, (nc-1)/2+i, (nc/2)-i);
-        }*/
-        //aux += Helper.recorridoHaciaArriba(m, ((nc-1)/2)-1, (nf/2)+0, (nf/2)-2);
-        
-        
         aux = aux.substring(0, aux.length()-2)+".";
         return aux;
     }

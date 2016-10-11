@@ -192,7 +192,12 @@ public class Principal extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                txtResultado.setText(Helper.recorridoTres(tblTablaInicial));
+                if ((nf % 2 != 0 && nc % 2 != 0) || (nf != nc)) {
+                    Helper.mensaje(this, "Para visualizar este recorrido, el número de filas y columnas deben ser iguales y pares.", 3);
+                }
+                else {
+                    txtResultado.setText(Helper.recorridoTres(tblTablaInicial));
+                }
                 break;
             case 3:
                 if (nf != nc) {
